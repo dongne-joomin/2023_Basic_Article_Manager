@@ -5,13 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+	
+	static List<Article> articles;
+	
+	static {
+		articles = new ArrayList<>();
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
 		
+		makeTestDats();
+		
 		Scanner sc = new Scanner(System.in);
-		int  lastArticleId  = 0;
+		int  lastArticleId  = 3;
 				
-        List<Article> articles = new ArrayList<>();
+                
 		while (true) {
 			System.out.printf("명령어)");
 			String cmd = sc.nextLine().trim();
@@ -45,10 +54,10 @@ public class Main {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}
-				System.out.println("번호		|		제목		|		날짜		|		조회");
+				System.out.println("번호	|	제목	|		날짜		|	조회");
 				for(int i = articles.size() - 1; i >=0; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d		|		%s		|		%s		|		%d\n", article.id, article.title, article.regDate, article.viewCnt);
+					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.viewCnt);
 				}
 					
 
@@ -147,6 +156,15 @@ public class Main {
 
 	}
 
+	private static void makeTestDats() {
+		System.out.println("게시물 테스트 데이터를 생성합니다.");
+		articles.add(new Article(1, Util.getDate(), "제목1", "내용1", 10));
+		articles.add(new Article(2, Util.getDate(), "제목2", "내용2", 20));
+		articles.add(new Article(3, Util.getDate(), "제목3", "내용3", 30));
+		
+	}
+
+
 }
 
 class  Article{
@@ -157,13 +175,16 @@ class  Article{
 	String body;
 	int viewCnt;
 	
-	
 	Article(int id, String regDate, String title, String body) {
+		this(id, regDate, title, body, 0);
+	}
+	
+	Article(int id, String regDate, String title, String body, int viewCnt) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
-		this.viewCnt = 0;
+		this.viewCnt = viewCnt;
 	}
 
 	public void addviewCnt() {
