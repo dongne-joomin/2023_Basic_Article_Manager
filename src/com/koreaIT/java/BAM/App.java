@@ -1,6 +1,7 @@
 package com.koreaIT.java.BAM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,6 +35,20 @@ public class App {
 
 			if (cmd.equals("exit")) {
 				break;
+			} else if (cmd.equals("member join")) {
+				
+				System.out.printf("로그인 아이디 : ");
+				String loginId = sc.nextLine();
+
+				System.out.printf("로그인 비밀번호 : ");
+				String loginPw = sc.nextLine();
+				System.out.printf("로그인 비밀번호 확인 : ");
+				String loginPw2 = sc.nextLine();
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+
+				System.out.printf("%s 회원님 환영합니다.\n", loginId);
+
 			} else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
@@ -51,14 +66,36 @@ public class App {
 
 				System.out.printf("%d번 글이 생성되었습니다.\n", id);
 
-			} else if (cmd.equals("article list")) {
+			} else if (cmd.startsWith("article list")) {
+
 				if (articles.size() == 0) {
-					System.out.println("게시글이 없습니다.");
+					System.out.println("게시글이 없습니다");
 					continue;
 				}
+
+				String searchKeyword = cmd.substring("article list".length()).trim();
+
+				List<Article> printArticles = new ArrayList<>(articles);
+
+				if (searchKeyword.length() > 0) {
+					System.out.println("검색어 : " + searchKeyword);
+
+					printArticles.clear();
+
+					for (Article article : articles) {
+						if (article.title.contains(searchKeyword)) {
+							printArticles.add(article);
+						}
+					}
+					if (printArticles.size() == 0) {
+						System.out.println("검색결과가 없습니다");
+						continue;
+					}
+				}
+
 				System.out.println("번호	|	제목	|		날짜		|	조회");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				Collections.reverse(printArticles);
+				for (Article article : printArticles) {
 					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate,
 							article.viewCnt);
 				}
@@ -86,7 +123,6 @@ public class App {
 				String[] cmdBits = cmd.split(" ");
 				int id = Integer.parseInt(cmdBits[2]);
 
-//				Article foundArticle = getArticleById(id);
 				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
@@ -124,13 +160,10 @@ public class App {
 			}
 
 		}
-
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
-
 	}
-
 
 	private Article getArticleById(int id) {
 
