@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.dto.Article;
+import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
 public class App {
 	private List<Article> articles;
+	private List<Member> members;
 
 	App() {
 		articles = new ArrayList<>();
-
+		members = new ArrayList<>();
 	}
 
 	public void run() {
@@ -23,6 +25,7 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 3;
+		int lastMemberId = 0;
 
 		while (true) {
 			System.out.printf("명령어)");
@@ -35,20 +38,52 @@ public class App {
 
 			if (cmd.equals("exit")) {
 				break;
-			} else if (cmd.equals("member join")) {
-				
-				System.out.printf("로그인 아이디 : ");
-				String loginId = sc.nextLine();
+			}
+			if (cmd.equals("member join")) {
+				int id = lastMemberId + 1;
+				lastMemberId = id;
 
-				System.out.printf("로그인 비밀번호 : ");
-				String loginPw = sc.nextLine();
-				System.out.printf("로그인 비밀번호 확인 : ");
-				String loginPw2 = sc.nextLine();
+				String regDate = Util.getDate();
+				String loginId = null;
+				while (true) {
+					System.out.printf("로그인 아이디 : ");
+					loginId = sc.nextLine();
+
+					if (loginIdDupChk(loginId) == false) {
+						System.out.printf("%s은(는) 이미 사용중인 아이디입니다.\n", loginId);
+						continue;
+					}
+					System.out.printf("%s은(는) 사용가능한 아이디입니다.\n", loginId);
+					break;
+				}
+				String loginPw = null;
+				String loginPwChk = null;
+				while (true) {
+					System.out.printf("로그인 비밀번호 : ");
+					loginPw = sc.nextLine();
+					System.out.printf("로그인 비밀번호 확인 : ");
+					loginPwChk = sc.nextLine();
+
+					if (loginPw.equals(loginPwChk) == false) {
+						System.out.println("비밀번호를 다시 입력해주세요.");
+						continue;
+					}
+					break;
+				}
+
 				System.out.printf("이름 : ");
 				String name = sc.nextLine();
 
-				System.out.printf("%s 회원님 환영합니다.\n", loginId);
+				Member member = new Member(id, regDate, loginId, loginPw, name);
+				members.add(member);
 
+				System.out.printf("%s 회원님 환영합니다.\n", loginId);
+				for (Member m : members) {
+					System.out.println(m.id);
+					System.out.println(m.loginId);
+					System.out.println(m.loginPw);
+					System.out.println(m.name);
+				}
 			} else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
@@ -163,6 +198,15 @@ public class App {
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
+	}
+
+	private boolean loginIdDupChk(String loginId) {
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Article getArticleById(int id) {
