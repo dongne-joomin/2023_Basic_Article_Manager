@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.controller.ArticleController;
+import com.koreaIT.java.BAM.controller.Controller;
 import com.koreaIT.java.BAM.controller.MemberController;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.dto.Member;
@@ -33,8 +34,7 @@ public class App {
 			System.out.printf("명령어)");
 			String cmd = sc.nextLine().trim();
 
-			int lastArticleId = 3;
-
+			
 			if (cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
 				continue;
@@ -43,28 +43,29 @@ public class App {
 			if (cmd.equals("exit")) {
 				break;
 			}
-			if (cmd.equals("member join")) {
-				memberController.doJoin();
-
-			} else if (cmd.equals("article write")) {
-				articleController.doWrite();
-
-			} else if (cmd.startsWith("article list")) {
-				articleController.showList(cmd);
-
-			} else if (cmd.startsWith("article detail ")) {
-				articleController.showDetail(cmd);
-
-			} else if (cmd.startsWith("article modify ")) {
-				articleController.doModify(cmd);
-
-			} else if (cmd.startsWith("article delete ")) {
-				articleController.doDelete(cmd);
-
-			} else {
-				System.out.println("존재하지 않는 명령어 입니다.");
-
+			
+			String[] cmdBits = cmd.split(" ");
+			
+			if (cmdBits.length == 1) {
+				System.out.println("명령어를 확인해주세요");
+				continue;
 			}
+			String controllerName = cmdBits[0];
+			String methodName = cmdBits[1];
+			
+			Controller controller = null;
+			
+			if (controllerName.equals("member")) {
+				controller = memberController;
+			}else if (controllerName.equals("article")) {
+				controller = articleController;
+			}else {
+				System.out.println("존재하지 않는 명령어 입니다.");
+				continue;
+			}
+			
+			controller.doAction(cmd, methodName);
+
 
 		}
 		System.out.println("==프로그램 끝==");

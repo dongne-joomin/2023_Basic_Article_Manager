@@ -8,18 +8,44 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.util.Util;
 
-public class ArticleController {
-	List<Article> articles;
-	Scanner sc;
-	int lastArticleId;
-
+public class ArticleController extends Controller{
+	private List<Article> articles;
+	private Scanner sc;
+	private int lastArticleId;
+	private String cmd;
+	
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc = sc;
 		this.lastArticleId = 3;
 	}
-
-	public void doWrite() {
+	@Override
+	public void doAction(String cmd, String methodName) {
+		this.cmd = cmd;
+		
+		switch(methodName) {
+		case "write":
+			doWrite();
+			break;
+		case "list":
+			showList();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어 입니다.");
+			break;
+		}
+	}
+	
+	private void doWrite() {
 		int id = lastArticleId + 1;
 		lastArticleId = id;
 
@@ -37,7 +63,7 @@ public class ArticleController {
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}
 
-	public void showList(String cmd) {
+	private void showList() {
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
@@ -72,8 +98,13 @@ public class ArticleController {
 
 	}
 
-	public void showDetail(String cmd) {
+	private void showDetail() {
 		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -92,24 +123,14 @@ public class ArticleController {
 		System.out.printf("조회 : %d\n", foundArticle.viewCnt);
 
 	}
-
-	public void doDelete(String cmd) {
+	private void doModify() {
 		String[] cmdBits = cmd.split(" ");
-		int id = Integer.parseInt(cmdBits[2]);
-
-		Article foundArticle = getArticleById(id);
-
-		if (foundArticle == null) {
-			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
 			return;
 		}
-		articles.remove(articles.indexOf(foundArticle));
-		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
-
-	}
-
-	public void doModify(String cmd) {
-		String[] cmdBits = cmd.split(" ");
+		
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -132,6 +153,28 @@ public class ArticleController {
 
 	}
 
+	private void doDelete() {
+		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
+		int id = Integer.parseInt(cmdBits[2]);
+
+		Article foundArticle = getArticleById(id);
+
+		if (foundArticle == null) {
+			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+			return;
+		}
+		articles.remove(articles.indexOf(foundArticle));
+		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
+
+	}
+
+
 	private Article getArticleById(int id) {
 
 		for (Article article : articles) {
@@ -142,4 +185,5 @@ public class ArticleController {
 
 		return null;
 	}
+
 }
