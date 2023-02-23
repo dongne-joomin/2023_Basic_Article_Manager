@@ -7,17 +7,18 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
-public class MemberController extends Controller{
+public class MemberController extends Controller {
 
 	private List<Member> members;
 	private Scanner sc;
 	private int lastMemberId;
+	private Member loginedMember;
 
-	
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		this.members = new ArrayList<>();
-		this.lastMemberId = 0;
+		this.lastMemberId = 3;
+		this.loginedMember = null;
 
 	}
 
@@ -29,14 +30,17 @@ public class MemberController extends Controller{
 			doJoin();
 			break;
 		case "login":
-			dologin();
+			doLogin();
 			break;
-			
+		case "logout":
+			doLogout();
+			break;
+
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
-		
+
 	}
 
 	private void doJoin() {
@@ -70,7 +74,6 @@ public class MemberController extends Controller{
 			}
 			break;
 		}
-		
 
 		System.out.printf("이름 : ");
 		String name = sc.nextLine();
@@ -81,24 +84,42 @@ public class MemberController extends Controller{
 		System.out.printf("%s 회원님 환영합니다.\n", loginId);
 	}
 
-	private void dologin() {
+	private void doLogin() {
+		
+		if (loginedMember != null) {
+			System.out.println("이미 로그인 상태입니다.");
+			return;
+		}
 		
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
-		
+
 		Member member = getMemberByLoginId(loginId);
-		
+
 		if (member == null) {
 			System.out.println("존재하지 않는 아이디 입니다.");
 			return;
 		}
-		if(member.loginPw.equals(loginPw) == false) {
+		if (member.loginPw.equals(loginPw) == false) {
 			System.out.println("비밀번호를 확인해주세요.");
 			return;
 		}
+
+		this.loginedMember = member;
+
 		System.out.printf("%s님 환영합니다.\n", member.name);
+
+	}
+
+	private void doLogout() {
+		if(loginedMember == null) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		this.loginedMember = null;
+		System.out.printf("%d님이 로그아웃 되었습니다.", loginedMember);
 	}
 
 	private Member getMemberByLoginId(String loginId) {
@@ -112,11 +133,19 @@ public class MemberController extends Controller{
 
 	private boolean loginIdDupChk(String loginId) {
 		Member member = getMemberByLoginId(loginId);
-		
-		if(member == null) {
+
+		if (member == null) {
 			return true;
 		}
 		return false;
+	}
+
+	public void makeTestDats() {
+		System.out.println("회원 테스트 데이터를 생성합니다.");
+		members.add(new Member(1, Util.getDate(), "test1", "test1", "test1"));
+		members.add(new Member(2, Util.getDate(), "test2", "test2", "test2"));
+		members.add(new Member(3, Util.getDate(), "test3", "test3", "test2"));
+
 	}
 
 }

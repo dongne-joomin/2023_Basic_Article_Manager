@@ -8,22 +8,23 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.util.Util;
 
-public class ArticleController extends Controller{
+public class ArticleController extends Controller {
 	private List<Article> articles;
 	private Scanner sc;
 	private int lastArticleId;
 	private String cmd;
-	
+
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 		this.articles = new ArrayList<>();
 		this.lastArticleId = 3;
 	}
+
 	@Override
 	public void doAction(String cmd, String methodName) {
 		this.cmd = cmd;
-		
-		switch(methodName) {
+
+		switch (methodName) {
 		case "write":
 			doWrite();
 			break;
@@ -44,7 +45,7 @@ public class ArticleController extends Controller{
 			break;
 		}
 	}
-	
+
 	private void doWrite() {
 		int id = lastArticleId + 1;
 		lastArticleId = id;
@@ -100,8 +101,8 @@ public class ArticleController extends Controller{
 
 	private void showDetail() {
 		String[] cmdBits = cmd.split(" ");
-		
-		if(cmdBits.length == 2) {
+
+		if (cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
 			return;
 		}
@@ -123,14 +124,15 @@ public class ArticleController extends Controller{
 		System.out.printf("조회 : %d\n", foundArticle.viewCnt);
 
 	}
+
 	private void doModify() {
 		String[] cmdBits = cmd.split(" ");
-		
-		if(cmdBits.length == 2) {
+
+		if (cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
 			return;
 		}
-		
+
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -155,12 +157,12 @@ public class ArticleController extends Controller{
 
 	private void doDelete() {
 		String[] cmdBits = cmd.split(" ");
-		
-		if(cmdBits.length == 2) {
+
+		if (cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
 			return;
 		}
-		
+
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleById(id);
@@ -173,7 +175,6 @@ public class ArticleController extends Controller{
 		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
 
 	}
-
 
 	private Article getArticleById(int id) {
 

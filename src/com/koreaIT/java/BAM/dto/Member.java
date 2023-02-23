@@ -1,6 +1,6 @@
 package com.koreaIT.java.BAM.dto;
 
-public class Member extends Dto{
+public class Member extends Dto {
 
 	public String loginId;
 	public String loginPw;
@@ -15,4 +15,3 @@ public class Member extends Dto{
 		this.name = name;
 	}
 }
-
