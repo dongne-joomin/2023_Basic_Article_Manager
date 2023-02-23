@@ -35,6 +35,9 @@ public class MemberController extends Controller {
 		case "logout":
 			doLogout();
 			break;
+		case "profile":
+			showProfile();
+			break;
 
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
@@ -44,6 +47,11 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
+		
+		if (isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		}
 		int id = lastMemberId + 1;
 		lastMemberId = id;
 
@@ -85,12 +93,12 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
-		
-		if (loginedMember != null) {
+
+		if (isLogined()) {
 			System.out.println("이미 로그인 상태입니다.");
 			return;
 		}
-		
+
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
@@ -113,17 +121,38 @@ public class MemberController extends Controller {
 
 	}
 
-	private void doLogout() {
-		if(loginedMember == null) {
-			System.out.println("로그인 후 이용해주세요.");
+	private void showProfile() {
+		
+		if (isLogined() == false) {
+			System.out.println("로그인후 이용해 주세요.");
 			return;
 		}
+		System.out.println("== 내 정보 ==");
+		System.out.printf("로그인 아이디 : %s\n", this.loginedMember.loginId);
+		System.out.printf("이름 : %s\n", this.loginedMember.name);
+		System.out.printf("로그인 비밀번호 : %s\n", this.loginedMember.loginPw);
+		System.out.printf("회원번호 : %d\n", this.loginedMember.id);
+		System.out.printf("가입날짜 : %s\n", this.loginedMember.regDate);
+
+	}
+
+	private void doLogout() {
+		if (isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+			
+		}
 		this.loginedMember = null;
-		System.out.printf("%d님이 로그아웃 되었습니다.", loginedMember);
+		System.out.println("로그아웃 되었습니다.");
+	}
+
+	private boolean isLogined() {
+		return loginedMember != null;
 	}
 
 	private Member getMemberByLoginId(String loginId) {
 		for (Member member : members) {
+
 			if (member.loginId.equals(loginId)) {
 				return member;
 			}
