@@ -12,13 +12,12 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private Scanner sc;
 	private int lastMemberId;
-	private Member loginedMember;
+	
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		this.members = new ArrayList<>();
 		this.lastMemberId = 3;
-		this.loginedMember = null;
 
 	}
 
@@ -115,7 +114,7 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		this.loginedMember = member;
+		loginedMember = member;
 
 		System.out.printf("%s님 환영합니다.\n", member.name);
 
@@ -128,11 +127,11 @@ public class MemberController extends Controller {
 			return;
 		}
 		System.out.println("== 내 정보 ==");
-		System.out.printf("로그인 아이디 : %s\n", this.loginedMember.loginId);
-		System.out.printf("이름 : %s\n", this.loginedMember.name);
-		System.out.printf("로그인 비밀번호 : %s\n", this.loginedMember.loginPw);
-		System.out.printf("회원번호 : %d\n", this.loginedMember.id);
-		System.out.printf("가입날짜 : %s\n", this.loginedMember.regDate);
+		System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+		System.out.printf("이름 : %s\n", loginedMember.name);
+		System.out.printf("로그인 비밀번호 : %s\n", loginedMember.loginPw);
+		System.out.printf("회원번호 : %d\n", loginedMember.id);
+		System.out.printf("가입날짜 : %s\n", loginedMember.regDate);
 
 	}
 
@@ -142,13 +141,11 @@ public class MemberController extends Controller {
 			return;
 			
 		}
-		this.loginedMember = null;
+		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
 
-	private boolean isLogined() {
-		return loginedMember != null;
-	}
+
 
 	private Member getMemberByLoginId(String loginId) {
 		for (Member member : members) {
