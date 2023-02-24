@@ -170,7 +170,7 @@ public class MemberController extends Controller {
 		System.out.println("회원 테스트 데이터를 생성합니다.");
 		members.add(new Member(1, Util.getDate(), "test1", "test1", "test1"));
 		members.add(new Member(2, Util.getDate(), "test2", "test2", "test2"));
-		members.add(new Member(3, Util.getDate(), "test3", "test3", "test2"));
+		members.add(new Member(3, Util.getDate(), "test3", "test3", "test3"));
 
 	}
 
