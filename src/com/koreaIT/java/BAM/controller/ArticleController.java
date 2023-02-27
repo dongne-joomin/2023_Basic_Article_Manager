@@ -26,30 +26,18 @@ public class ArticleController extends Controller {
 
 		switch (methodName) {
 		case "write":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doWrite();
 			break;
 		case "list":
 			showList();
 			break;
 		case "modify":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doModify();
 			break;
 		case "detail":
 			showDetail();
 			break;
 		case "delete":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doDelete();
 			break;
 		default:
@@ -195,9 +183,9 @@ public class ArticleController extends Controller {
 			System.out.println("게시글의 삭제권한이 없습니다.");
 			return;
 		}
-		
+
 		articles.remove(foundArticle);
-		
+
 		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
 
 	}
