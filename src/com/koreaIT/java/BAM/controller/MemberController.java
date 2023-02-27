@@ -36,7 +36,6 @@ public class MemberController extends Controller {
 		case "profile":
 			showProfile();
 			break;
-
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
@@ -148,9 +147,9 @@ public class MemberController extends Controller {
 
 	public void makeTestDats() {
 		System.out.println("회원 테스트 데이터를 생성합니다.");
-		members.add(new Member(1, Util.getDate(), "test1", "test1", "test1"));
-		members.add(new Member(2, Util.getDate(), "test2", "test2", "test2"));
-		members.add(new Member(3, Util.getDate(), "test3", "test3", "test3"));
+		members.add(new Member(1, Util.getDate(), "test1", "test1", "김철수"));
+		members.add(new Member(2, Util.getDate(), "test2", "test2", "김영희"));
+		members.add(new Member(3, Util.getDate(), "test3", "test3", "김영수"));
 
 	}
 

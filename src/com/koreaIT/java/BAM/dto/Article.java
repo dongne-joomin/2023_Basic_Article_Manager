@@ -1,6 +1,6 @@
 package com.koreaIT.java.BAM.dto;
 
-public class Article extends Dto{
+public class Article extends Dto {
 
 	public String title;
 	public String body;
@@ -11,7 +11,7 @@ public class Article extends Dto{
 		this(id, regDate, memberId, title, body, 0);
 	}
 
-	public Article(int id, String regDate, int memberId ,String title, String body, int viewCnt) {
+	public Article(int id, String regDate, int memberId, String title, String body, int viewCnt) {
 		this.id = id;
 		this.regDate = regDate;
 		this.memberId = memberId;
