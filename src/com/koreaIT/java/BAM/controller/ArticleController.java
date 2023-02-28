@@ -1,6 +1,5 @@
 package com.koreaIT.java.BAM.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -74,7 +73,7 @@ public class ArticleController extends Controller {
 
 		String searchKeyword = cmd.substring("article list".length()).trim();
 
-		List<Article> printArticles = new ArrayList<>(articles);
+		List<Article> printArticles = Container.articleService.getPrintArticles(searchKeyword);
 
 		if (searchKeyword.length() > 0) {
 			System.out.println("검색어 : " + searchKeyword);

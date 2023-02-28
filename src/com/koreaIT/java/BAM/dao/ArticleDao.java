@@ -17,4 +17,8 @@ public class ArticleDao extends Dao{
 		lastId++;
 	}
 
+	public List<Article> getPrintArticles(String searchKeyword) {
+		return null;
+	}
+
 }

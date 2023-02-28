@@ -91,14 +91,14 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 아이디 : ");
 			String loginId = sc.nextLine();
 			
-			if(loginId.length() == 0) {
+			if(loginId.trim().length() == 0) {
 				System.out.println("로그인 아이디를 입력해주세요");
 				continue;
 			}
 			while(true) {
 				System.out.printf("로그인 비밀번호 : ");
 				loginPw = sc.nextLine();
-				if(loginPw.length() == 0) {
+				if(loginPw.trim().length() == 0) {
 					System.out.println("로그인 비밀번호를 입력해주세요");
 					continue;
 				}
