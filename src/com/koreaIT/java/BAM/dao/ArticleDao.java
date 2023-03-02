@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.koreaIT.java.BAM.dto.Article;
 
-public class ArticleDao extends Dao{
+public class ArticleDao extends Dao {
 	public List<Article> articles;
 
 	public ArticleDao() {
@@ -18,7 +18,22 @@ public class ArticleDao extends Dao{
 	}
 
 	public List<Article> getPrintArticles(String searchKeyword) {
-		return null;
+
+		if (searchKeyword.length() > 0) {
+
+			List<Article> printArticles = new ArrayList<>();
+
+			for (Article article : articles) {
+				if (article.title.contains(searchKeyword)) {
+					printArticles.add(article);
+				}
+			}
+
+			return printArticles;
+
+		}
+		return articles;
 	}
+
 
 }
